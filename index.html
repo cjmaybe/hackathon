@@ -481,8 +481,8 @@ html.is-loading body { overflow: hidden; }
 .banner-title-sub {
   display: block;
   font-family: var(--font-body);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   text-transform: none;
   font-size: clamp(1rem, 2.6vw, 1.5rem);
   letter-spacing: 0.01em;
@@ -614,6 +614,15 @@ html.is-loading body { overflow: hidden; }
   text-shadow: 0 0 16px rgba(244, 226, 176, 0.35);
   font-variant-numeric: tabular-nums;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(46px, 12vw, 74px);
+  padding: clamp(8px, 2.2vw, 14px) clamp(6px, 1.6vw, 10px);
+  background: linear-gradient(160deg, rgba(45, 36, 24, 0.65), rgba(8, 6, 5, 0.7));
+  border: 1px solid rgba(201, 161, 95, 0.45);
+  border-radius: 8px;
+  box-shadow: var(--glow-gold), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .countdown-caption {
@@ -790,6 +799,21 @@ html.is-loading body { overflow: hidden; }
   color: var(--gold-light);
 }
 
+.timeline-food-note {
+  margin: clamp(20px, 4vw, 30px) auto 0;
+  max-width: 520px;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: clamp(0.78rem, 1.8vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  text-shadow: 0 0 12px rgba(244, 226, 176, 0.3);
+  padding-top: clamp(14px, 2.6vw, 20px);
+  border-top: 1px solid rgba(201, 161, 95, 0.2);
+}
+
 .timeline-desc {
   margin: 0;
   font-family: var(--font-body);
@@ -944,6 +968,70 @@ html.is-loading body { overflow: hidden; }
 .member-tree-connector .connector-bar::before { left: 0; }
 .member-tree-connector .connector-bar::after { right: 0; }
 
+.member-section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin: 32px 0 16px;
+  color: var(--gold-light);
+  font-family: var(--font-heading);
+  font-size: clamp(0.85rem, 1.8vw, 1.15rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(201, 161, 95, 0.35);
+}
+
+.member-section-divider::before,
+.member-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+  opacity: 0.45;
+}
+
+/* Connector that widens back out below a single-column row (mirror of
+   .member-tree-connector) so the pyramid reads top-to-bottom cleanly. */
+.connector-inverted {
+  position: relative;
+  width: min(100%, 220px);
+  height: 28px;
+  margin: 10px auto;
+}
+.connector-inverted .connector-bar {
+  position: absolute;
+  top: 13px;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.55;
+}
+.connector-inverted .connector-bar::before,
+.connector-inverted .connector-bar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 2px;
+  height: 13px;
+  background: var(--gold);
+  opacity: 0.55;
+}
+.connector-inverted .connector-bar::before { left: 0; }
+.connector-inverted .connector-bar::after { right: 0; }
+.connector-inverted .connector-stem {
+  position: absolute;
+  top: 13px;
+  left: 50%;
+  width: 2px;
+  height: 15px;
+  background: var(--gold);
+  opacity: 0.55;
+  transform: translateX(-50%);
+}
+
 .member-card {
   position: relative;
   width: clamp(112px, 18vw, 168px);
@@ -976,6 +1064,13 @@ html.is-loading body { overflow: hidden; }
 .member-card:hover .member-card-inner,
 .member-card:focus-within .member-card-inner {
   transform: rotateY(180deg);
+}
+
+/* Student Coordinator cards: no flip — front face only, phone number
+   and dial button are already visible without hovering. */
+.member-row--students .member-card:hover .member-card-inner,
+.member-row--students .member-card:focus-within .member-card-inner {
+  transform: none;
 }
 
 .member-card-front,
@@ -1087,6 +1182,157 @@ html.is-loading body { overflow: hidden; }
 }
 
 .member-portrait svg { width: 70%; height: 70%; }
+
+/* --- Student Coordinator flip cards (name + phone, no photo) --- */
+.member-row--students {
+  gap: clamp(14px, 3.4vw, 36px) !important;
+  margin-top: 10px;
+}
+
+.member-row--students .member-card {
+  width: clamp(130px, 20vw, 186px);
+  height: clamp(88px, 12vw, 116px);
+}
+
+.member-row--students .member-card-front,
+.member-row--students .member-card-back {
+  padding: 12px;
+  gap: 6px;
+}
+
+.student-number {
+  font-family: var(--font-heading);
+  font-size: clamp(0.7rem, 1.6vw, 0.85rem);
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+}
+
+.student-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.8vw, 1.05rem);
+  color: #fff;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.student-name a {
+  color: var(--accent-teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.student-name a:hover,
+.student-name a:focus-visible {
+  color: var(--gold-light);
+}
+
+/* --- Phone button: a tappable pill (icon + number) that dials directly
+   via tel: — used across the Guild Official Members section (Event
+   Coordinator + Student Coordinator cards). */
+.phone-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 4px;
+  padding: 5px 11px;
+  background: rgba(201, 161, 95, 0.14);
+  border: 1px solid rgba(201, 161, 95, 0.45);
+  border-radius: 999px;
+  color: var(--accent-teal);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(0.6rem, 1.5vw, 0.76rem);
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+  -webkit-tap-highlight-color: rgba(201, 161, 95, 0.35);
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+.phone-btn svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+.phone-btn:hover,
+.phone-btn:focus-visible,
+.phone-btn:active {
+  background: rgba(201, 161, 95, 0.28);
+  border-color: var(--gold);
+  color: var(--gold-light);
+  transform: translateY(-1px);
+}
+
+.phone-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* Small tree connector above the student row */
+.connector-three {
+  position: relative;
+  width: min(100%, 220px);
+  height: 28px;
+  margin: 10px auto;
+}
+
+.connector-three .connector-stem {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 13px;
+  background: var(--gold);
+  opacity: 0.55;
+  transform: translateX(-50%);
+}
+
+.connector-three .connector-bar {
+  position: absolute;
+  top: 13px;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: var(--gold);
+  opacity: 0.55;
+}
+
+.connector-three .connector-bar::before,
+.connector-three .connector-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 13px;
+  background: var(--gold);
+  opacity: 0.55;
+}
+
+.connector-three .connector-bar::before { left: 0; }
+.connector-three .connector-bar::after { right: 0; }
+
+.connector-center-drop {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 13px;
+  background: var(--gold);
+  opacity: 0.55;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 560px) {
+  .member-row--students .member-card { width: 114px; height: 80px; }
+}
 
 .member-name {
   font-family: var(--font-heading);
@@ -1241,201 +1487,6 @@ html.is-loading body { overflow: hidden; }
   font-weight: 600;
 }
 
-/* ============================== 13b. STUDENT COORDINATORS SECTION ============================== */
-.frame--coordinators { padding: clamp(20px, 4vw, 34px); }
-
-.coordinator-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: clamp(20px, 3vw, 30px);
-}
-
-.coordinator-tab {
-  padding: 8px 20px;
-  border: 1px solid rgba(201, 161, 95, 0.3);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
-  font-family: var(--font-heading);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.coordinator-tab:hover,
-.coordinator-tab:focus-visible {
-  color: var(--gold-light);
-  border-color: var(--gold);
-}
-
-.coordinator-tab.is-active {
-  color: #1a1510;
-  border-color: var(--gold-light);
-  background: linear-gradient(90deg, var(--gold-light), var(--gold));
-}
-
-.coordinator-panel { display: none; }
-.coordinator-panel.is-active { display: block; }
-
-.coordinator-empty {
-  text-align: center;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: clamp(0.95rem, 2vw, 1.1rem);
-  color: var(--text-muted);
-  padding: clamp(28px, 5vw, 48px) 0;
-  margin: 0;
-}
-
-.coordinator-hint-line {
-  text-align: center;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin: 0 0 clamp(16px, 3vw, 24px);
-}
-
-/* --- Lead coordinators: tap-to-reveal contact cards --- */
-.coordinator-leads {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(12px, 2.4vw, 20px);
-  margin-bottom: clamp(24px, 4vw, 36px);
-}
-
-.coordinator-lead {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: clamp(150px, 30vw, 190px);
-  padding: clamp(14px, 2.4vw, 18px) 16px;
-  border: 1px solid rgba(201, 161, 95, 0.4);
-  border-radius: 10px;
-  background: linear-gradient(155deg, rgba(40, 33, 22, 0.5), rgba(10, 8, 6, 0.55));
-  font-family: inherit;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.coordinator-lead:hover,
-.coordinator-lead:focus-visible {
-  border-color: var(--gold);
-  box-shadow: var(--glow-gold);
-  transform: translateY(-3px);
-  outline: none;
-}
-
-.coordinator-lead-badge {
-  font-family: var(--font-heading);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  margin-bottom: 6px;
-}
-
-.coordinator-lead-name {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--text-primary);
-}
-
-.coordinator-lead-roll {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-
-.coordinator-lead-hint {
-  display: block;
-  margin-top: 8px;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 0.68rem;
-  color: var(--text-muted);
-}
-
-.coordinator-lead-contact {
-  display: none;
-  margin-top: 8px;
-  padding-top: 8px;
-  width: 100%;
-  border-top: 1px dashed rgba(201, 161, 95, 0.35);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent-teal);
-  word-break: break-word;
-}
-
-.coordinator-lead-contact:empty::before {
-  content: "Contact number coming soon";
-  color: var(--text-muted);
-  font-style: italic;
-  font-weight: 500;
-}
-
-.coordinator-lead.is-open .coordinator-lead-hint { display: none; }
-.coordinator-lead.is-open .coordinator-lead-contact { display: block; }
-
-/* --- Full roster grid --- */
-.coordinator-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 10px;
-}
-
-.coordinator-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px 10px;
-  border: 1px solid rgba(201, 161, 95, 0.15);
-  border-radius: 6px;
-  background: rgba(20, 16, 12, 0.35);
-  overflow: hidden;
-}
-
-.coordinator-item--lead {
-  border-color: rgba(201, 161, 95, 0.55);
-  background: rgba(45, 36, 27, 0.35);
-}
-
-.coordinator-star {
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  font-size: 0.65rem;
-  color: var(--gold-light);
-}
-
-.coordinator-roll {
-  font-family: var(--font-heading);
-  font-size: 0.62rem;
-  letter-spacing: 0.05em;
-  color: var(--gold-light);
-}
-
-.coordinator-name {
-  font-family: var(--font-body);
-  font-size: 0.82rem;
-  color: var(--text-secondary);
-  overflow-wrap: break-word;
-  word-break: break-word;
-}
-
 /* ============================== 17b. VISIT / MAP ============================== */
 .frame--visit { padding: clamp(20px, 4vw, 34px); }
 
@@ -1486,6 +1537,281 @@ html.is-loading body { overflow: hidden; }
   min-height: 240px;
   border-radius: var(--frame-radius);
   filter: grayscale(0.25) contrast(1.05);
+}
+
+/* ============================== 17c. CREDITS PREVIEW ============================== */
+.frame--video {
+  margin-top: clamp(24px, 4vw, 44px);
+  padding: clamp(16px, 3vw, 24px);
+}
+
+.video-heading {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 on larger screens, overridden below on mobile */
+  height: 0;
+  border-radius: var(--frame-radius);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(244, 226, 176, 0.28);
+  box-shadow: var(--glow-gold-soft), inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 32px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.credits-container {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(155deg, rgba(58, 46, 30, 0.55) 0%, rgba(30, 24, 17, 0.55) 45%, rgba(16, 13, 9, 0.6) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(244, 226, 176, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 0 60px rgba(201, 161, 95, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.credits-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.credits-fade-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: clamp(30px, 12%, 120px);
+  background: linear-gradient(to right, rgba(20, 16, 11, 0.55) 20%, transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.credits-fade-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: clamp(30px, 12%, 120px);
+  background: linear-gradient(to left, rgba(20, 16, 11, 0.55) 20%, transparent);
+  z-index: 4;
+  pointer-events: none;
+}
+
+.credits-header {
+  position: absolute;
+  top: clamp(10px, 3vw, 35px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+  text-align: center;
+  background: rgba(13, 11, 7, 0.5);
+  padding: clamp(5px, 1.4vw, 8px) clamp(10px, 3vw, 16px);
+  border-radius: var(--frame-radius);
+  border: 1px solid rgba(244, 226, 176, 0.15);
+  backdrop-filter: blur(4px);
+  gap: 4px;
+  max-width: 92%;
+}
+
+.credits-header-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 1.6vw, 10px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.credits-header-role {
+  font-family: var(--font-heading);
+  font-size: clamp(0.6rem, 1.6vw, 0.8rem);
+  color: var(--accent-teal);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(0, 245, 255, 0.2);
+}
+
+.credits-header-name {
+  font-family: var(--font-body);
+  font-size: clamp(0.72rem, 2vw, 1.05rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.names-scroll-container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 2.5vw, 18px);
+  width: 100%;
+  margin: clamp(70px, 18vw, 25px) 0 clamp(60px, 14vw, 0px);
+  z-index: 2;
+  transform: translateY(-10px);
+}
+
+.names-row {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  user-select: none;
+}
+
+.names-row-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.names-group {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  padding-right: 50px;
+}
+
+.names-row-track--ltr { animation: marqueeScrollLTR 28s linear infinite; }
+.names-row-track--rtl { animation: marqueeScrollRTL 28s linear infinite; }
+
+.credits-container.fast .names-row-track--ltr { animation-duration: 11s; }
+.credits-container.fast .names-row-track--rtl { animation-duration: 11s; }
+
+.credits-container.paused .names-row-track,
+.credits-container.paused .logo-marquee-track { animation-play-state: paused; }
+
+.credits-name-text {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 2.4vw, 1.3rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  white-space: nowrap;
+}
+
+.credits-separator {
+  font-family: var(--font-heading);
+  color: var(--gold-light);
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  margin: 0 5px;
+  text-shadow: 0 0 6px rgba(244, 226, 176, 0.4);
+}
+
+.credits-footer-text {
+  position: absolute;
+  bottom: clamp(46px, 12vw, 65px);
+  font-family: var(--font-heading);
+  font-size: clamp(0.58rem, 1.8vw, 0.75rem);
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  z-index: 3;
+  text-align: center;
+  text-shadow: 0 0 4px rgba(244, 226, 176, 0.2);
+  padding: 0 clamp(10px, 4vw, 20px);
+}
+
+.logo-marquee {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(13, 11, 7, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(244, 226, 176, 0.25);
+  z-index: 5;
+  padding: clamp(8px, 2vw, 12px) 0;
+  display: flex;
+}
+
+.logo-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScrollRTL 22s linear infinite;
+}
+
+.logo-marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding-right: 60px;
+}
+
+.logo-marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  white-space: nowrap;
+}
+
+.logo-marquee-img {
+  height: clamp(18px, 4vw, 28px);
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(244, 226, 176, 0.4));
+}
+
+.logo-marquee-text {
+  font-family: var(--font-heading);
+  font-size: clamp(0.58rem, 1.8vw, 0.85rem);
+  color: #fff;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.logo-marquee-text--teal { color: var(--accent-teal); text-shadow: 0 0 6px rgba(0, 245, 255, 0.3); }
+.logo-marquee-text--gold { color: var(--gold-light); text-shadow: 0 0 6px rgba(244, 226, 176, 0.3); }
+
+.credits-container.fast .logo-marquee-track { animation-duration: 9s; }
+
+@keyframes marqueeScrollRTL {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marqueeScrollLTR {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Mobile responsiveness: the fixed 16:9 wrapper is far too short once the
+   viewport narrows, so the header/rows/footer/marquee collide. Give the
+   preview a much taller aspect ratio and tighten every offset instead. */
+@media (max-width: 760px) {
+  .video-wrapper { padding-bottom: 145%; }
+  .credits-header { top: 12px; gap: 3px; }
+  .names-scroll-container { margin: 92px 0 64px; gap: 10px; }
+  .credits-footer-text { bottom: 50px; }
+  .logo-marquee-group { gap: 34px; padding-right: 34px; }
+  .logo-marquee-item { gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .video-wrapper { padding-bottom: 175%; }
+  .credits-header-row { flex-direction: column; gap: 2px; }
+  .names-scroll-container { margin: 108px 0 58px; gap: 8px; }
+  .credits-footer-text { bottom: 46px; }
 }
 
 @media (max-width: 760px) {
@@ -1700,11 +2026,6 @@ html.is-loading body { overflow: hidden; }
   .timeline-text { text-align: left; }
 
   .member-pyramid { row-gap: 24px; }
-
-  .coordinator-tab { padding: 7px 14px; font-size: 0.66rem; }
-  .coordinator-leads { gap: 10px; }
-  .coordinator-lead { width: 100%; max-width: 260px; }
-  .coordinator-grid { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 8px; }
 }
 
 @media (max-width: 400px) {
@@ -1774,7 +2095,6 @@ html.is-loading body { overflow: hidden; }
           <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
           <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
           <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
-          <li><a href="/coordinators" class="nav-link" data-route="coordinators">Coordinators</a></li>
           <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         </ul>
       </nav>
@@ -1794,7 +2114,6 @@ html.is-loading body { overflow: hidden; }
         <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
         <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
         <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
-        <li><a href="/coordinators" class="nav-link" data-route="coordinators">Coordinators</a></li>
         <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSco2xVDxZKLfnvL29hR93Nk7T6qb9B_c9wNNYrAy-2IpIvh0w/viewform?usp=dialog" class="mobile-nav-cta" data-nav-mobile>Register Now</a></li>
       </ul>
@@ -1820,6 +2139,7 @@ html.is-loading body { overflow: hidden; }
           <div class="banner-shape"><div class="banner-shape-inner"></div></div>
           <h1 class="banner-title banner-title--hero">
             ZYNORA 2026<br>
+            <span class="banner-title-sub">24 Hour Hackathon</span>
           </h1>
         </div>
 
@@ -2072,6 +2392,8 @@ html.is-loading body { overflow: hidden; }
               </div>
             </li>
           </ol>
+
+          <p class="timeline-food-note">Non&ndash;veg food is also provided</p>
         </div>
       </div>
     </section>
@@ -2160,18 +2482,19 @@ html.is-loading body { overflow: hidden; }
           <span class="frame-pendant" aria-hidden="true">&#10022;</span>
 
           <div class="member-pyramid">
+            <div class="member-section-divider">&#10022; Head of Department &#10022;</div>
+
             <div class="member-row member-row--lead">
               <div class="member-card" tabindex="0">
                 <div class="member-card-inner">
                   <div class="member-card-front">
-                    <span class="member-role-tag">HOD</span>
                     <div class="member-portrait">
                       <img src="./assets/Dr.S.TAMIL SELVAN.jpeg" alt="HOD photo" loading="lazy">
                     </div>
                     <span class="member-name-box">Dr.S.TAMIL SELVAN</span>
                   </div>
                   <div class="member-card-back">
-                    <p class="member-card-back-desc">Dr.S.TAMIL SELVAN, ASP & HEAD/CSD,AI&ML,CYBER SECURITY</p>
+                    <p class="member-card-back-desc">Dr.S.TAMIL SELVAN, ASP &amp; HEAD/CSD, AI&amp;ML, CYBER SECURITY</p>
                   </div>
                 </div>
               </div>
@@ -2182,15 +2505,17 @@ html.is-loading body { overflow: hidden; }
               <span class="connector-bar"></span>
             </div>
 
+            <div class="member-section-divider">&#10022; Event Coordinator &#10022;</div>
+
             <div class="member-row member-row--devs">
               <div class="member-card" tabindex="0">
                 <div class="member-card-inner">
                   <div class="member-card-front">
-                    <span class="member-role-tag">Event Coordinator</span>
                     <div class="member-portrait">
                       <img src="./assets/Ms.E.ANGEL ANNA PRATHIBA.jpeg" alt="Faculty photo" loading="lazy">
                     </div>
-                    <span class="member-name-box">Ms.E.ANGEL ANNA PRATHIBA</span>
+                    <span class="member-name-box">Ms.E.ANGEL ANNA PRATHIBA,<br>AP/CSD</span>
+                    <a class="phone-btn" href="tel:+917598162687" aria-label="Call Ms.E.ANGEL ANNA PRATHIBA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.3 11.3 0 003.55.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.3 11.3 0 00.57 3.55 1 1 0 01-.25 1.02l-2.2 2.22z"/></svg>7598162687</a>
                   </div>
                   <div class="member-card-back">
                     <p class="member-card-back-desc">Ms.E.ANGEL ANNA PRATHIBA, AP/CSD</p>
@@ -2200,14 +2525,60 @@ html.is-loading body { overflow: hidden; }
               <div class="member-card" tabindex="0">
                 <div class="member-card-inner">
                   <div class="member-card-front">
-                    <span class="member-role-tag">Event Coordinator</span>
                     <div class="member-portrait">
                       <img src="./assets/Ms.R.SHRI KEERTHANA.jpeg" alt="Faculty photo" loading="lazy">
                     </div>
-                    <span class="member-name-box">Ms.R.SHRI KEERTHANA</span>
+                    <span class="member-name-box">Ms.R.SHRI KEERTHANA,<br>AP/CSD</span>
+                    <a class="phone-btn" href="tel:+919488475775" aria-label="Call Ms.R.SHRI KEERTHANA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.3 11.3 0 003.55.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.3 11.3 0 00.57 3.55 1 1 0 01-.25 1.02l-2.2 2.22z"/></svg>9488475775</a>
                   </div>
                   <div class="member-card-back">
                     <p class="member-card-back-desc">Ms.R.SHRI KEERTHANA, AP/CSD</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="connector-inverted" aria-hidden="true">
+              <span class="connector-bar"></span>
+              <span class="connector-stem"></span>
+            </div>
+
+            <div class="member-section-divider">&#10022; Student Coordinator &#10022;</div>
+
+            <div class="member-row member-row--students">
+              <div class="member-card" tabindex="0">
+                <div class="member-card-inner">
+                  <div class="member-card-front">
+                    <span class="student-number">&mdash; 01 &mdash;</span>
+                    <span class="student-name">Hari Prasath N</span>
+                    <a class="phone-btn" href="tel:+918220683194" aria-label="Call Hari Prasath N"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.3 11.3 0 003.55.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.3 11.3 0 00.57 3.55 1 1 0 01-.25 1.02l-2.2 2.22z"/></svg>8220683194</a>
+                  </div>
+                  <div class="member-card-back">
+                    <p class="member-card-back-desc">Hari Prasath N<br>ES24CD18<br>8220683194</p>
+                  </div>
+                </div>
+              </div>
+              <div class="member-card" tabindex="0">
+                <div class="member-card-inner">
+                  <div class="member-card-front">
+                    <span class="student-number">&mdash; 02 &mdash;</span>
+                    <span class="student-name">Sarvesh S</span>
+                    <a class="phone-btn" href="tel:+918807648494" aria-label="Call Sarvesh S"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.3 11.3 0 003.55.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.3 11.3 0 00.57 3.55 1 1 0 01-.25 1.02l-2.2 2.22z"/></svg>8807648494</a>
+                  </div>
+                  <div class="member-card-back">
+                    <p class="member-card-back-desc">Senniappa Sarvesh<br>ES24CD44<br>8807648494</p>
+                  </div>
+                </div>
+              </div>
+              <div class="member-card" tabindex="0">
+                <div class="member-card-inner">
+                  <div class="member-card-front">
+                    <span class="student-number">&mdash; 03 &mdash;</span>
+                    <span class="student-name">Mathangi S</span>
+                    <a class="phone-btn" href="tel:+918220324140" aria-label="Call Mathangi S"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.3 11.3 0 003.55.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.3 11.3 0 00.57 3.55 1 1 0 01-.25 1.02l-2.2 2.22z"/></svg>8220324140</a>
+                  </div>
+                  <div class="member-card-back">
+                    <p class="member-card-back-desc">Mathangi S<br>ES24CD30<br>8220324140</p>
                   </div>
                 </div>
               </div>
@@ -2217,120 +2588,6 @@ html.is-loading body { overflow: hidden; }
       </div>
     </section>
 
-    <!-- ================= STUDENT COORDINATORS SECTION ================= -->
-    <section class="section" id="coordinators">
-      <div class="section-inner">
-        <div class="banner">
-          <div class="banner-shape"><div class="banner-shape-inner"></div></div>
-          <h2 class="banner-title">Student Coordinators</h2>
-        </div>
-
-        <div class="frame frame--coordinators">
-          <span class="corner corner--tl" aria-hidden="true"></span>
-          <span class="corner corner--tr" aria-hidden="true"></span>
-          <span class="corner corner--bl" aria-hidden="true"></span>
-          <span class="corner corner--br" aria-hidden="true"></span>
-          <span class="frame-pendant" aria-hidden="true">&#10022;</span>
-
-          <div class="coordinator-tabs" role="tablist" aria-label="Coordinators by year">
-            <button type="button" class="coordinator-tab" data-year-tab="2nd" role="tab" aria-selected="false">2nd Year</button>
-            <button type="button" class="coordinator-tab is-active" data-year-tab="3rd" role="tab" aria-selected="true">3rd Year</button>
-            <button type="button" class="coordinator-tab" data-year-tab="4th" role="tab" aria-selected="false">4th Year</button>
-          </div>
-
-          <div class="coordinator-panel" data-year-panel="2nd" role="tabpanel">
-            <p class="coordinator-empty">Coordinator list coming soon.</p>
-          </div>
-
-          <div class="coordinator-panel is-active" data-year-panel="3rd" role="tabpanel">
-            <p class="coordinator-hint-line">Tap a lead coordinator&rsquo;s card for their contact number.</p>
-
-            <div class="coordinator-leads">
-              <button type="button" class="coordinator-lead" data-phone="">
-                <span class="coordinator-lead-badge">Lead Coordinator</span>
-                <span class="coordinator-lead-name">Hari Prasath N</span>
-                <span class="coordinator-lead-roll">ES24CD18</span>
-                <span class="coordinator-lead-hint">Tap for number</span>
-                <span class="coordinator-lead-contact"></span>
-              </button>
-              <button type="button" class="coordinator-lead" data-phone="">
-                <span class="coordinator-lead-badge">Lead Coordinator</span>
-                <span class="coordinator-lead-name">Mathangi S</span>
-                <span class="coordinator-lead-roll">ES24CD30</span>
-                <span class="coordinator-lead-hint">Tap for number</span>
-                <span class="coordinator-lead-contact"></span>
-              </button>
-              <button type="button" class="coordinator-lead" data-phone="">
-                <span class="coordinator-lead-badge">Lead Coordinator</span>
-                <span class="coordinator-lead-name">Sarvesh S</span>
-                <span class="coordinator-lead-roll">ES24CD44</span>
-                <span class="coordinator-lead-hint">Tap for number</span>
-                <span class="coordinator-lead-contact"></span>
-              </button>
-            </div>
-
-            <ol class="coordinator-grid">
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD01</span><span class="coordinator-name">Ananthika K</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD02</span><span class="coordinator-name">Anushri A</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD03</span><span class="coordinator-name">Anupriya A</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD04</span><span class="coordinator-name">Balaji M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD05</span><span class="coordinator-name">Balasaranya</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD06</span><span class="coordinator-name">Bargavi B</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD07</span><span class="coordinator-name">Belcia Vinslet V</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD08</span><span class="coordinator-name">Boopathi S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD09</span><span class="coordinator-name">Charumathi M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD10</span><span class="coordinator-name">Chiranjeevi K</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD11</span><span class="coordinator-name">Deepak Kumar S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD12</span><span class="coordinator-name">Deepak R</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD13</span><span class="coordinator-name">Durga T S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD14</span><span class="coordinator-name">Elayakavi A</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD15</span><span class="coordinator-name">Gopika M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD16</span><span class="coordinator-name">Hari Krishna V</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD17</span><span class="coordinator-name">Hariprasath M</span></li>
-              <li class="coordinator-item coordinator-item--lead"><span class="coordinator-star" aria-hidden="true">&#10022;</span><span class="coordinator-roll">ES24CD18</span><span class="coordinator-name">Hari Prasath N</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD19</span><span class="coordinator-name">Harivarsan E</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD20</span><span class="coordinator-name">Harshini S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD21</span><span class="coordinator-name">Inbaraj E</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD22</span><span class="coordinator-name">Jothilakshmi K</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD23</span><span class="coordinator-name">Kanishka</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD24</span><span class="coordinator-name">Kishor P</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD25</span><span class="coordinator-name">Lakshana L</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD27</span><span class="coordinator-name">Mahalakshmi M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD28</span><span class="coordinator-name">Mano Ranjani T</span></li>
-              <li class="coordinator-item coordinator-item--lead"><span class="coordinator-star" aria-hidden="true">&#10022;</span><span class="coordinator-roll">ES24CD30</span><span class="coordinator-name">Mathangi S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD31</span><span class="coordinator-name">Nandhini</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD33</span><span class="coordinator-name">Pavithran S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD34</span><span class="coordinator-name">Pravin V</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD35</span><span class="coordinator-name">Princess Golda C</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD36</span><span class="coordinator-name">Puja S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD38</span><span class="coordinator-name">Rikshanth V</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD39</span><span class="coordinator-name">Sakthisadhana</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD41</span><span class="coordinator-name">Sanjay S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD42</span><span class="coordinator-name">Santhiya S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD43</span><span class="coordinator-name">Santhoshkrishna K</span></li>
-              <li class="coordinator-item coordinator-item--lead"><span class="coordinator-star" aria-hidden="true">&#10022;</span><span class="coordinator-roll">ES24CD44</span><span class="coordinator-name">Senniappa Sarvesh</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD46</span><span class="coordinator-name">Sriram P</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD47</span><span class="coordinator-name">Subashree N</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD48</span><span class="coordinator-name">Suchit R</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD49</span><span class="coordinator-name">Swathi M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD50</span><span class="coordinator-name">Vaishnavi K</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD51</span><span class="coordinator-name">Varshana</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD52</span><span class="coordinator-name">Varshini M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD53</span><span class="coordinator-name">Vasanth M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD54</span><span class="coordinator-name">Vinothini M</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES24CD55</span><span class="coordinator-name">Vishnunath S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES25LCD</span><span class="coordinator-name">Bharath Kumar S</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES25LCD02</span><span class="coordinator-name">Kavin</span></li>
-              <li class="coordinator-item"><span class="coordinator-roll">ES25LCD03</span><span class="coordinator-name">Kishore M</span></li>
-            </ol>
-          </div>
-
-          <div class="coordinator-panel" data-year-panel="4th" role="tabpanel">
-            <p class="coordinator-empty">Coordinator list coming soon.</p>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ================= VISIT / MAP + FOOTER SECTION ================= -->
     <section class="section section--last" id="visit">
@@ -2358,7 +2615,7 @@ html.is-loading body { overflow: hidden; }
 
               <h3 class="visit-heading">Contact</h3>
               <p class="visit-text">
-                +91 94885 68500<br>
+                <a href="tel:+919488568500">+91 94885 68500</a><br>
                 <a href="mailto:csdesecofficial@gmail.com">csdesecofficial@gmail.com</a>
               </p>
             </div>
@@ -2370,6 +2627,165 @@ html.is-loading body { overflow: hidden; }
                 referrerpolicy="no-referrer-when-downgrade"
                 title="Map to Erode Sengunthar Engineering College">
               </iframe>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= CREDITS PREVIEW ================= -->
+        <div class="frame frame--video">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <span class="frame-pendant" aria-hidden="true">&#10022;</span>
+
+          <h3 class="video-heading">Zynora 2026 Credits</h3>
+          <div class="video-wrapper">
+            <div class="credits-container" id="creditsContainer">
+              <canvas class="credits-canvas" id="creditsCanvas"></canvas>
+              <div class="credits-fade-left"></div>
+              <div class="credits-fade-right"></div>
+
+              <div class="credits-header">
+                <div class="credits-header-row">
+                  <span class="credits-header-role">Convener:</span>
+                  <span class="credits-header-name">Dr. S. Tamil Selvan</span>
+                </div>
+                <div class="credits-header-row">
+                  <span class="credits-header-role">Event Cordinators:</span>
+                  <span class="credits-header-name">Ms. E. Angel Anna Prathiba, Ms. R. Shri Keerthana</span>
+                </div>
+              </div>
+
+              <div class="names-scroll-container">
+                <div class="names-row">
+                  <div class="names-row-track names-row-track--ltr">
+                    <div class="names-group">
+                      <span class="credits-name-text">Mathangi S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Kishore M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Sriram P</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Santhiya S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Boopathi</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">M. Sakthi Sadhana</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Belcia Vinslet V</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Mahalakshmi M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Bharath Kumar S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Hari Krishna V</span>
+                    </div>
+                    <div class="names-group">
+                      <span class="credits-name-text">Mathangi S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Kishore M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Sriram P</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Santhiya S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Boopathi</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">M. Sakthi Sadhana</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Belcia Vinslet V</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Mahalakshmi M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Bharath Kumar S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Hari Krishna V</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="names-row">
+                  <div class="names-row-track names-row-track--rtl">
+                    <div class="names-group">
+                      <span class="credits-name-text">Deepak R</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Pavithran S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Varshini M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Puja</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Sanjay S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">S. Harshini</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Nandhini K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Vaishnavi K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Subashree N</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Vasanth M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Santhoshkrishna K</span>
+                    </div>
+                    <div class="names-group">
+                      <span class="credits-name-text">Deepak R</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Pavithran S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Varshini M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Puja</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Sanjay S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">S. Harshini</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Nandhini K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Vaishnavi K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Subashree N</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Vasanth M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Santhoshkrishna K</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="names-row">
+                  <div class="names-row-track names-row-track--ltr">
+                    <div class="names-group">
+                      <span class="credits-name-text">Rikshanth V</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Gopika M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Varshana K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">C. Princess Golda</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">K. Ananthika</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Balasaranya S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Charumathi M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Jothilakshmi K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Anupriya A</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Anushri A</span>
+                    </div>
+                    <div class="names-group">
+                      <span class="credits-name-text">Rikshanth V</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Gopika M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Varshana K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">C. Princess Golda</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">K. Ananthika</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Balasaranya S</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Charumathi M</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Jothilakshmi K</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Anupriya A</span><span class="credits-separator">&#10022;</span>
+                      <span class="credits-name-text">Anushri A</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="credits-footer-text">
+                Presented by Department of Computer Science &amp; Design, Erode Sengunthar Engineering College
+              </div>
+
+              <div class="logo-marquee">
+                <div class="logo-marquee-track">
+                  <div class="logo-marquee-group">
+                    <div class="logo-marquee-item">
+                      <img src="./assets/logo.png" alt="Zynora Logo" class="logo-marquee-img">
+                      <span class="logo-marquee-text logo-marquee-text--gold">ZYNORA 2026</span>
+                    </div>
+                    <div class="logo-marquee-item">
+                      <span class="logo-marquee-text logo-marquee-text--teal">24 HR HACKATHON</span>
+                    </div>
+                    <div class="logo-marquee-item">
+                      <span class="logo-marquee-text">DEPARTMENT OF CSD</span>
+                    </div>
+                    <div class="logo-marquee-item">
+                      <span class="logo-marquee-text logo-marquee-text--gold">ESEC</span>
+                    </div>
+                  </div>
+                  <div class="logo-marquee-group">
+                    <div class="logo-marquee-item">
+                      <img src="./assets/logo.png" alt="Zynora Logo" class="logo-marquee-img">
+                      <span class="logo-marquee-text logo-marquee-text--gold">ZYNORA 2026</span>
+                    </div>
+                    <div class="logo-marquee-item">
+                      <span class="logo-marquee-text logo-marquee-text--teal">24 HR HACKATHON</span>
+                    </div>
+                    <div class="logo-marquee-item">
+                      <span class="logo-marquee-text">DEPARTMENT OF CSD</span>
+                    </div>
+                    <div class="logo-marquee-item">
+                      <span class="logo-marquee-text logo-marquee-text--gold">ESEC</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2821,7 +3237,6 @@ const routeSections = {
   '/rules': 'rules',
   '/prizes': 'prizes',
   '/mentors': 'mentors',
-  '/coordinators': 'coordinators',
   '/visit': 'visit'
 };
 
@@ -2952,8 +3367,8 @@ window.addEventListener('load', () => {
   // list items, timeline rows); these only need .is-visible toggled on them,
   // the child stagger delays live in CSS.
   const staggerTargets = document.querySelectorAll(
-    '.feature-grid, .prize-grid, .rules-list, .member-row--lead, .member-row--devs, .timeline'
-  );
+  '.feature-grid, .prize-grid, .rules-list, .member-row--lead, .member-row--devs, .member-row--students, .timeline'
+);
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -3005,39 +3420,117 @@ window.addEventListener('load', () => {
     });
   }
 
-  /* ---------------------- 9. Student coordinators (year tabs + tap-to-reveal contact) ---------------------- */
-  const coordinatorTabs = document.querySelectorAll('[data-year-tab]');
-  const coordinatorPanels = document.querySelectorAll('[data-year-panel]');
-
-  coordinatorTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const year = tab.getAttribute('data-year-tab');
-
-      coordinatorTabs.forEach(t => {
-        t.classList.toggle('is-active', t === tab);
-        t.setAttribute('aria-selected', String(t === tab));
-      });
-      coordinatorPanels.forEach(panel => {
-        panel.classList.toggle('is-active', panel.getAttribute('data-year-panel') === year);
-      });
-    });
-  });
-
-  // Tapping/clicking a lead coordinator's card reveals their contact
-  // number underneath their name; tapping again hides it.
-  document.querySelectorAll('.coordinator-lead').forEach(card => {
-    card.addEventListener('click', () => {
-      const phone = card.dataset.phone || '';
-      const contactEl = card.querySelector('.coordinator-lead-contact');
-      if (contactEl && phone) {
-        contactEl.textContent = phone;
-      }
-      card.classList.toggle('is-open');
-    });
-  });
-
 });
 
+  </script>
+
+  <script>
+  /* ========================================================================
+     CREDITS PREVIEW — ember particle canvas behind the scrolling names
+     ======================================================================== */
+  (function initCreditsRoll() {
+    'use strict';
+
+    const container = document.getElementById('creditsContainer');
+    const canvas = document.getElementById('creditsCanvas');
+    if (!container || !canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    function handleResize() {
+      const rect = container.getBoundingClientRect();
+      canvas.width = rect.width * (window.devicePixelRatio || 1);
+      canvas.height = rect.height * (window.devicePixelRatio || 1);
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    const particles = [];
+    const particleCount = 45;
+
+    class Particle {
+      constructor(w, h, isInit = false) {
+        this.w = w;
+        this.h = h;
+        this.reset(isInit);
+      }
+
+      reset(isInit = false) {
+        this.x = Math.random() * this.w;
+        this.y = isInit ? Math.random() * this.h : this.h + 20;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedY = -(Math.random() * 0.7 + 0.3);
+        this.speedX = Math.random() * 0.4 - 0.2;
+        this.opacity = Math.random() * 0.5 + 0.2;
+        this.fadeSpeed = Math.random() * 0.005 + 0.002;
+        this.color = Math.random() > 0.35
+          ? `rgba(244, 226, 176, ${this.opacity})`
+          : `rgba(0, 245, 255, ${this.opacity * 0.8})`;
+      }
+
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX + Math.sin(this.y * 0.01) * 0.15;
+
+        if (this.y < this.h * 0.3) {
+          this.opacity -= this.fadeSpeed;
+        }
+
+        if (this.y < -10 || this.opacity <= 0) {
+          this.reset(false);
+        }
+      }
+
+      draw(ctx) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = this.size * 2;
+        ctx.shadowColor = this.color.includes('244') ? '#f4e2b0' : '#00f5ff';
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle(container.clientWidth, container.clientHeight, true));
+    }
+
+    let rafId = null;
+    function animate() {
+      const w = canvas.width / (window.devicePixelRatio || 1);
+      const h = canvas.height / (window.devicePixelRatio || 1);
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.shadowBlur = 0;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.w = w;
+        p.h = h;
+        p.update();
+        p.draw(ctx);
+      }
+
+      rafId = requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Pause the canvas animation (and the CSS marquees, via the .paused
+    // class) whenever the tab is hidden so it doesn't burn battery/CPU
+    // in the background, and resume cleanly when it's visible again.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        container.classList.add('paused');
+        if (rafId) cancelAnimationFrame(rafId);
+      } else {
+        container.classList.remove('paused');
+        animate();
+      }
+    });
+  })();
   </script>
 </body>
 </html>
