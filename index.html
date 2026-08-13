@@ -1260,8 +1260,11 @@
       transform: rotateY(180deg);
     }
 
-    /* Student Coordinator cards: no flip — front face only, phone number
-   and dial button are already visible without hovering. */
+    /* Event Coordinator (faculty) and Student Coordinator cards: no flip —
+   front face only, phone number and dial button are already visible
+   without hovering. */
+    .member-row--devs .member-card:hover .member-card-inner,
+    .member-row--devs .member-card:focus-within .member-card-inner,
     .member-row--students .member-card:hover .member-card-inner,
     .member-row--students .member-card:focus-within .member-card-inner {
       transform: none;
@@ -1428,12 +1431,15 @@
    via tel: — used across the Guild Official Members section (Event
    Coordinator + Student Coordinator cards). */
     .phone-btn {
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      margin-top: 4px;
-      padding: 6px 13px;
+      margin: 4px 0 0;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 6px 8px;
       background: rgba(201, 161, 95, 0.14);
       border: 1px solid rgba(201, 161, 95, 0.45);
       border-radius: 999px;
@@ -1984,8 +1990,33 @@
       font-weight: 700;
       color: #fff;
       letter-spacing: 0.05em;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
       white-space: nowrap;
+      animation: creditsNameGlow 4.5s ease-in-out infinite;
+      animation-delay: var(--glow-delay, 0s);
+    }
+
+    /* Slow, gentle glow so each credited name softly breathes rather than
+   sitting flat — staggered per-name via --glow-delay (set in JS) so the
+   whole row doesn't pulse in unison. */
+    @keyframes creditsNameGlow {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        opacity: 0.88;
+      }
+
+      50% {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 9px rgba(244, 226, 176, 0.6));
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .credits-name-text {
+        animation: none;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+      }
     }
 
     .credits-separator {
@@ -2101,7 +2132,8 @@
    preview a much taller aspect ratio and tighten every offset instead. */
     @media (max-width: 760px) {
       .video-wrapper {
-        padding-bottom: 145%;
+        padding-bottom: 105%;
+        max-height: 460px;
       }
 
       .credits-header {
@@ -2110,12 +2142,12 @@
       }
 
       .names-scroll-container {
-        margin: 92px 0 64px;
-        gap: 10px;
+        margin: 80px 0 56px;
+        gap: 8px;
       }
 
       .credits-footer-text {
-        bottom: 50px;
+        bottom: 44px;
       }
 
       .logo-marquee-group {
@@ -2130,7 +2162,8 @@
 
     @media (max-width: 480px) {
       .video-wrapper {
-        padding-bottom: 175%;
+        padding-bottom: 118%;
+        max-height: 400px;
       }
 
       .credits-header-row {
@@ -2139,12 +2172,12 @@
       }
 
       .names-scroll-container {
-        margin: 108px 0 58px;
-        gap: 8px;
+        margin: 88px 0 48px;
+        gap: 7px;
       }
 
       .credits-footer-text {
-        bottom: 46px;
+        bottom: 40px;
       }
     }
 
@@ -2310,29 +2343,12 @@
       transform: none;
     }
 
-    .timeline.is-visible .timeline-row:nth-child(1) .timeline-text,
-    .timeline.is-visible .timeline-row:nth-child(1) .timeline-node {
-      transition-delay: 0.15s;
-    }
-
-    .timeline.is-visible .timeline-row:nth-child(2) .timeline-text,
-    .timeline.is-visible .timeline-row:nth-child(2) .timeline-node {
-      transition-delay: 0.3s;
-    }
-
-    .timeline.is-visible .timeline-row:nth-child(3) .timeline-text,
-    .timeline.is-visible .timeline-row:nth-child(3) .timeline-node {
-      transition-delay: 0.45s;
-    }
-
-    .timeline.is-visible .timeline-row:nth-child(4) .timeline-text,
-    .timeline.is-visible .timeline-row:nth-child(4) .timeline-node {
-      transition-delay: 0.6s;
-    }
-
-    .timeline.is-visible .timeline-row:nth-child(5) .timeline-text,
-    .timeline.is-visible .timeline-row:nth-child(5) .timeline-node {
-      transition-delay: 0.75s;
+    /* Stagger delay for EVERY row (not just the first 5) — the actual
+   value is written to --row-delay per row by JS, so this scales to
+   however many rows the timeline has. */
+    .timeline.is-visible .timeline-row .timeline-text,
+    .timeline.is-visible .timeline-row .timeline-node {
+      transition-delay: var(--row-delay, 0s);
     }
 
     /* --- Banner unfurl: the ribbon scales in from the center on top of the
@@ -2538,6 +2554,21 @@
         width: 118px;
       }
 
+      /* Narrow cards leave little room for the phone pill — tighten it so
+     numbers like "82206 83194" keep fitting on one line, never spilling
+     past the card's edge. */
+      .phone-btn {
+        gap: 4px;
+        padding: 5px 6px;
+        font-size: 0.66rem;
+        letter-spacing: 0.01em;
+      }
+
+      .phone-btn svg {
+        width: 11px;
+        height: 11px;
+      }
+
       /* Section padding tightens on phones so panels don't feel cramped
      against the viewport edges. */
       .section-inner {
@@ -2606,6 +2637,21 @@
 
       .member-card {
         width: 104px;
+      }
+
+      /* At this width the card's inner padding leaves very little room for
+     the phone pill — shrink its font/padding/icon so "82206 83194" style
+     numbers keep fitting on one line instead of overflowing the card. */
+      .phone-btn {
+        gap: 3px;
+        padding: 5px 4px;
+        font-size: 0.62rem;
+        letter-spacing: 0.01em;
+      }
+
+      .phone-btn svg {
+        width: 10px;
+        height: 10px;
       }
     }
 
@@ -3339,15 +3385,15 @@
                     <div class="member-portrait">
                       <img src="./assets/Hari.jpg" alt="Student photo" loading="lazy">
                     </div>
-                    <span class="member-name-box">Hari</span>
-                    <a class="phone-btn" href="tel:+918220683194" aria-label="Call Hari Prasath N"><svg
+                    <span class="member-name-box">HARIPRASATH N</span>
+                    <a class="phone-btn" href="tel:+918220683194" aria-label="Call Hariprasath N"><svg
                         viewBox="0 0 24 24" aria-hidden="true">
                         <path
                           d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.02-.24 11.3 11.3 0 003.55.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.3 11.3 0 00.57 3.55 1 1 0 01-.25 1.02l-2.2 2.22z" />
                       </svg>82206 83194</a>
                   </div>
                   <div class="member-card-back">
-                    <p class="member-card-back-desc">Hari<br>ES24CD18<br>8220683194</p>
+                    <p class="member-card-back-desc">HARIPRASATH N<br>ES24CD18<br>8220683194</p>
                   </div>
                 </div>
               </div>
@@ -3357,7 +3403,7 @@
                     <div class="member-portrait">
                       <img src="./assets/Sarvesh.jpg" alt="Student photo" loading="lazy">
                     </div>
-                    <span class="member-name-box">Sarvesh</span>
+                    <span class="member-name-box">SARVESH S</span>
                     <a class="phone-btn" href="tel:+918807648494" aria-label="Call Sarvesh S"><svg viewBox="0 0 24 24"
                         aria-hidden="true">
                         <path
@@ -3365,7 +3411,7 @@
                       </svg>88076 48494</a>
                   </div>
                   <div class="member-card-back">
-                    <p class="member-card-back-desc">Sarvesh<br>ES24CD44<br>8807648494</p>
+                    <p class="member-card-back-desc">SARVESH S<br>ES24CD44<br>8807648494</p>
                   </div>
                 </div>
               </div>
@@ -3375,7 +3421,7 @@
                     <div class="member-portrait">
                       <img src="./assets/Mathangi.jpg" alt="Student photo" loading="lazy">
                     </div>
-                    <span class="member-name-box">Mathangi</span>
+                    <span class="member-name-box">MATHANGI S</span>
                     <a class="phone-btn" href="tel:+918220324140" aria-label="Call Mathangi S"><svg viewBox="0 0 24 24"
                         aria-hidden="true">
                         <path
@@ -3383,7 +3429,7 @@
                       </svg>82203 24140</a>
                   </div>
                   <div class="member-card-back">
-                    <p class="member-card-back-desc">Mathangi<br>ES24CD30<br>8220324140</p>
+                    <p class="member-card-back-desc">MATHANGI S<br>ES24CD30<br>8220324140</p>
                   </div>
                 </div>
               </div>
@@ -4546,6 +4592,13 @@
       }
 
       /* ---------------------- 6. Scroll-reveal animations ---------------------- */
+      // Give every timeline row an increasing transition-delay (capped) so
+      // the whole schedule staggers in one row after another, no matter how
+      // many rows are added — CSS alone only handled the first 5.
+      document.querySelectorAll('.timeline-row').forEach((row, i) => {
+        row.style.setProperty('--row-delay', `${Math.min(i * 0.15, 1.2)}s`);
+      });
+
       // Simple fade + rise elements (get both .reveal and .is-visible).
       const revealTargets = document.querySelectorAll(
         '.frame, .banner, .cta-row, .countdown-panel'
@@ -4624,6 +4677,12 @@
       const canvas = document.getElementById('creditsCanvas');
       if (!container || !canvas) return;
       const ctx = canvas.getContext('2d');
+
+      // Stagger the slow name-glow so credited names don't all pulse in
+      // unison — cycles through a handful of offsets.
+      container.querySelectorAll('.credits-name-text').forEach((el, i) => {
+        el.style.setProperty('--glow-delay', `${(i % 6) * 0.75}s`);
+      });
 
       function handleResize() {
         const rect = container.getBoundingClientRect();
