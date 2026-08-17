@@ -2030,23 +2030,23 @@
     }
 
     .names-row-track--ltr {
-      animation: marqueeScrollLTR 28s linear infinite;
+      animation: marqueeScrollLTR 56s linear infinite;
     }
 
     .names-row-track--rtl {
-      animation: marqueeScrollRTL 28s linear infinite;
+      animation: marqueeScrollRTL 56s linear infinite;
     }
 
     .names-scroll-container .names-row:nth-of-type(1) .names-row-track {
-      animation-duration: 120s;
+      animation-duration: 240s;
     }
 
     .names-scroll-container .names-row:nth-of-type(2) .names-row-track {
-      animation-duration: 110s;
+      animation-duration: 220s;
     }
 
     .names-scroll-container .names-row:nth-of-type(3) .names-row-track {
-      animation-duration: 125s;
+      animation-duration: 250s;
     }
 
     .credits-container.fast .names-row-track--ltr {
@@ -2069,32 +2069,7 @@
       color: #fff;
       letter-spacing: 0.05em;
       white-space: nowrap;
-      animation: creditsNameGlow 4.5s ease-in-out infinite;
-      animation-delay: var(--glow-delay, 0s);
-    }
-
-    /* Slow, gentle glow so each credited name softly breathes rather than
-   sitting flat — staggered per-name via --glow-delay (set in JS) so the
-   whole row doesn't pulse in unison. */
-    @keyframes creditsNameGlow {
-
-      0%,
-      100% {
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-        opacity: 0.88;
-      }
-
-      50% {
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 9px rgba(244, 226, 176, 0.6));
-        opacity: 1;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .credits-name-text {
-        animation: none;
-        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-      }
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
     }
 
     .credits-separator {
@@ -2894,9 +2869,9 @@
         <ul class="nav-list">
           <li><a href="/" class="nav-link active" data-route="home">Home</a></li>
           <li><a href="/about" class="nav-link" data-route="about">About</a></li>
-          <li><a href="/schedule" class="nav-link" data-route="schedule">Schedule</a></li>
-          <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
           <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
+          <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
+          <li><a href="/schedule" class="nav-link" data-route="schedule">Timeline</a></li>
           <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
           <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         </ul>
@@ -2915,9 +2890,9 @@
       <ul class="mobile-nav-list">
         <li><a href="/" class="nav-link active" data-route="home">Home</a></li>
         <li><a href="/about" class="nav-link" data-route="about">About</a></li>
-        <li><a href="/schedule" class="nav-link" data-route="schedule">Schedule</a></li>
-        <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
         <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
+        <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
+        <li><a href="/schedule" class="nav-link" data-route="schedule">Timeline</a></li>
         <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
         <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         <li><a
@@ -4567,12 +4542,6 @@
       const canvas = document.getElementById('creditsCanvas');
       if (!container || !canvas) return;
       const ctx = canvas.getContext('2d');
-
-      // Stagger the slow name-glow so credited names don't all pulse in
-      // unison — cycles through a handful of offsets.
-      container.querySelectorAll('.credits-name-text').forEach((el, i) => {
-        el.style.setProperty('--glow-delay', `${(i % 6) * 0.75}s`);
-      });
 
       function handleResize() {
         const rect = container.getBoundingClientRect();
