@@ -4186,9 +4186,19 @@
         lastDrawn = -1; // force a redraw at the new size
       }
 
+      let lastGoodFrame = 0; // most recent index that actually has a loaded image
+
       function drawFrame(index) {
-        const img = images[index];
-        if (!img || !img.complete || img.naturalWidth === 0) return;
+        let img = images[index];
+
+        // Frame not downloaded yet (background preload still in progress) —
+        // fall back to the nearest frame we do have instead of drawing nothing.
+        if (!img || !img.complete || img.naturalWidth === 0) {
+          img = images[lastGoodFrame];
+          if (!img || !img.complete || img.naturalWidth === 0) return;
+        } else {
+          lastGoodFrame = index;
+        }
 
         const cw = canvas.width;
         const ch = canvas.height;
@@ -4214,23 +4224,47 @@
         }
       }
 
-      /* ---------------------- Preload every frame, reporting progress ---------------------- */
-      function preload() {
+      /* ---------------------- Load one frame ---------------------- */
+      function loadFrame(i) {
         return new Promise((resolve) => {
-          let loaded = 0;
-          for (let i = 0; i < frameCount; i++) {
-            const img = new Image();
-            img.decoding = 'async';
-            img.onload = img.onerror = () => {
+          const img = new Image();
+          img.decoding = 'async';
+          img.onload = img.onerror = () => resolve();
+          img.src = frameSrc(i);
+          images[i] = img;
+        });
+      }
+
+      /* ---------------------- Preload strategy ----------------------
+         Only frame 0 blocks the loader — that's all that's needed for
+         a usable first paint. Every other frame loads in the background
+         afterwards (a handful at a time so we don't saturate the
+         connection), while drawFrame()'s nearest-loaded-frame fallback
+         keeps the background sane if the user scrolls ahead of what's
+         downloaded so far. This turns "wait for 214 images" into
+         "wait for 1 image". */
+      function preload() {
+        return loadFrame(0).then(() => {
+          let loaded = 1;
+          if (loadingBarFill) loadingBarFill.style.width = '100%';
+          if (loadingPercent) loadingPercent.textContent = '100%';
+
+          const remaining = [];
+          for (let i = 1; i < frameCount; i++) remaining.push(i);
+
+          const CONCURRENCY = 6;
+          let cursor = 0;
+          function pump() {
+            if (cursor >= remaining.length) return Promise.resolve();
+            const i = remaining[cursor++];
+            return loadFrame(i).then(() => {
               loaded++;
-              const pct = Math.round((loaded / frameCount) * 100);
-              if (loadingBarFill) loadingBarFill.style.width = pct + '%';
-              if (loadingPercent) loadingPercent.textContent = pct + '%';
-              if (loaded === frameCount) resolve();
-            };
-            img.src = frameSrc(i);
-            images[i] = img;
+              return pump();
+            });
           }
+          // Kick off a small pool of concurrent loaders; don't await this —
+          // it keeps filling in images[] after the loader has already hidden.
+          for (let w = 0; w < CONCURRENCY; w++) pump();
         });
       }
 
@@ -4270,7 +4304,14 @@
 
       resizeCanvas();
 
-      preload().then(() => {
+      // Safety net: never let the loader block the page for more than 6s,
+      // even if frame 0 stalls or 404s for some reason.
+      const preloadWithTimeout = Promise.race([
+        preload(),
+        new Promise((resolve) => setTimeout(resolve, 6000)),
+      ]);
+
+      preloadWithTimeout.then(() => {
         drawFrame(0);
         setupScrollTrigger();
 
