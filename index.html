@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Maayai'26</title>
+  <title>MAAYAI'26</title>
   <meta name="description"
     content="MAAYAI 2026 | a 24 hour game development hackathon hosted by the Department of Computer Science and Design, Erode Sengunthar Engineering College.">
-  <meta name="application-name" content="Maayai'26">
+  <meta name="application-name" content="MAAYAI'26">
   <link rel="canonical" href="https://maayai.web.app/">
 
   <!-- Structured data: tells search engines the preferred site name -->
@@ -15,7 +15,7 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Maayai'26",
+    "name": "MAAYAI'26",
     "alternateName": "MAAYAI 2026",
     "url": "https://maayai.web.app/"
   }
@@ -32,25 +32,26 @@
        them at all.
        ============================================================ -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Maayai'26">
+  <meta property="og:site_name" content="MAAYAI'26">
   <meta property="og:url" content="https://maayai.web.app/">
-  <meta property="og:title" content="Maayai'26 | 24 Hrs Game Development Hackathon">
+  <meta property="og:title" content="MAAYAI'26 | 24 Hrs Game Development Hackathon">
   <meta property="og:description"
     content="A 24-hour game development hackathon by the Dept. of Computer Science &amp; Design, Erode Sengunthar Engineering College. 17–18 Sep 2026 · Internship with stipend for winners.">
-  <meta property="og:image" content="https://maayai.web.app/assets/maayai-poster.jpg">
+  <meta property="og:image" content="https://maayai.web.app/assets/posters/maayai-poster.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="844">
   <meta property="og:image:alt" content="MAAYAI 2026 hackathon poster">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Maayai'26 | 24 Hrs Game Development Hackathon">
+  <meta name="twitter:title" content="MAAYAI'26 | 24 Hrs Game Development Hackathon">
   <meta name="twitter:description"
     content="A 24-hour game development hackathon by the Dept. of Computer Science &amp; Design, Erode Sengunthar Engineering College.">
-  <meta name="twitter:image" content="https://maayai.web.app/assets/maayai-poster.jpg">
+  <meta name="twitter:image" content="https://maayai.web.app/assets/posters/maayai-poster.jpg">
 
   <!-- Favicon: reuses the college crest already used in the footer -->
-  <link rel="icon" href="https://maayai.web.app/assets/maayai.png" type="image/png">
-  <link rel="apple-touch-icon" href="https://maayai.web.app/assets/maayai.png">
+  <link rel="icon" href="./assets/icons/maayai.png" type="image/png">
+  <link rel="shortcut icon" href="./assets/icons/maayai.png" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/icons/maayai.png">
   <!-- Google Fonts: Cinzel Decorative for ornate display headings, Cinzel for nav/labels, Cormorant Garamond for body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -607,6 +608,77 @@
       font-size: clamp(1rem, 2.6vw, 1.5rem);
       letter-spacing: 0.01em;
       margin-top: 0.2em;
+    }
+
+    /* ============================== 6b. POSTER (click-to-download) ============================== */
+    .poster-section {
+      padding-top: clamp(20px, 4vw, 40px);
+    }
+
+    .poster-link {
+      display: block;
+      position: relative;
+      width: min(100%, 900px);
+      margin: 0 auto;
+      border-radius: var(--frame-radius);
+      overflow: hidden;
+      border: 1px solid rgba(201, 161, 95, 0.28);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), var(--glow-gold-soft), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .poster-frame {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      /* Fallback ratio so the frame has height before JS reads the first
+   image's real dimensions; corrected immediately once it loads. */
+      aspect-ratio: 3 / 4;
+    }
+
+    .poster-img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1);
+      /* Long, matched fade so the outgoing and incoming posters dissolve
+   into each other rather than blinking through an empty gap. */
+      transition: opacity 1.1s ease, transform 0.5s ease;
+    }
+
+    .poster-img.is-active {
+      opacity: 1;
+    }
+
+    .poster-link:hover .poster-img.is-active,
+    .poster-link:focus-visible .poster-img.is-active {
+      transform: scale(1.03);
+    }
+
+    .poster-hint {
+      position: absolute;
+      inset: auto 0 0 0;
+      padding: clamp(12px, 2.4vw, 20px);
+      text-align: center;
+      font-family: var(--font-body);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: clamp(0.8rem, 1.6vw, 1rem);
+      color: var(--gold-light);
+      background: linear-gradient(to top, rgba(10, 8, 6, 0.92), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .poster-link:hover .poster-hint,
+    .poster-link:focus-visible .poster-hint {
+      opacity: 1;
     }
 
     /* ============================== 7. FRAME (ornate content panel) ============================== */
@@ -2875,7 +2947,7 @@
   <header class="site-header" id="siteHeader">
     <div class="nav-wrap">
       <a href="/" class="logo" data-route="home" aria-label="MAAYAI Home">
-        <img class="logo-crest" src="./assets/logo.png" alt="ESEC" />
+        <img class="logo-crest" src="./assets/icons/logo.png" alt="ESEC" />
       </a>
 
       <nav class="main-nav" id="mainNav" aria-label="Primary">
@@ -2990,6 +3062,24 @@
           <a href="https://www.instagram.com/mayaai_2026/" class="btn btn--secondary" target="_blank"
             rel="noopener noreferrer">View Instagram <span class="btn-arrow">&rarr;</span></a>
         </div>
+      </div>
+    </section>
+
+    <!-- ================= POSTER SECTION ================= -->
+    <!-- 3 color variants cycle every 2s, dissolving between two stacked
+         layers (see "Poster carousel" JS) so there's no blink/flash. -->
+    <section class="section poster-section" id="poster">
+      <div class="section-inner">
+        <a class="poster-link" id="posterLink" href="./assets/posters/MAAYAI BLUE.png" download="MAAYAI_26_POSTER.png"
+          aria-label="Download the MAAYAI'26 event poster"
+          data-posters="./assets/posters/MAAYAI BLUE.png|./assets/posters/MAAYAI RED.png|./assets/posters/MAAYAI YELLOW.png">
+          <div class="poster-frame">
+            <img class="poster-img is-active" id="posterImgA" src="./assets/posters/MAAYAI BLUE.png"
+              alt="MAAYAI'26 event poster">
+            <img class="poster-img" id="posterImgB" src="" alt="" aria-hidden="true">
+          </div>
+          <span class="poster-hint">Click to Download Poster</span>
+        </a>
       </div>
     </section>
 
@@ -3380,7 +3470,7 @@
                 <div class="member-card-inner">
                   <div class="member-card-front">
                     <div class="member-portrait">
-                      <img src="./assets/Dr.S.TAMIL SELVAN.jpeg" alt="HOD photo" loading="lazy">
+                      <img src="./assets/images/Dr.S.TAMIL SELVAN.jpeg" alt="HOD photo" loading="lazy">
                     </div>
                     <span class="member-name-box">Dr.S.TAMIL SELVAN, ASP & HEAD/CSD, AI&ML, CYBER SECURITY</span>
                   </div>
@@ -3404,7 +3494,7 @@
                 <div class="member-card-inner">
                   <div class="member-card-front">
                     <div class="member-portrait">
-                      <img src="./assets/Ms.E.ANGEL ANNA PRATHIBA.jpeg" alt="Faculty photo" loading="lazy">
+                      <img src="./assets/images/Ms.E.ANGEL ANNA PRATHIBA.jpeg" alt="Faculty photo" loading="lazy">
                     </div>
                     <span class="member-name-box">Ms.E.ANGEL ANNA PRATHIBA,<br>AP/CSD</span>
                     <a class="phone-btn" href="tel:+917598162687" aria-label="Call Ms.E.ANGEL ANNA PRATHIBA"><svg
@@ -3422,7 +3512,7 @@
                 <div class="member-card-inner">
                   <div class="member-card-front">
                     <div class="member-portrait">
-                      <img src="./assets/Ms.R.SHRI KEERTHANA.jpeg" alt="Faculty photo" loading="lazy">
+                      <img src="./assets/images/Ms.R.SHRI KEERTHANA.jpeg" alt="Faculty photo" loading="lazy">
                     </div>
                     <span class="member-name-box">Ms.R.SHRI KEERTHANA,<br>AP/CSD</span>
                     <a class="phone-btn" href="tel:+919488475775" aria-label="Call Ms.R.SHRI KEERTHANA"><svg
@@ -3450,7 +3540,7 @@
                 <div class="member-card-inner">
                   <div class="member-card-front">
                     <div class="member-portrait">
-                      <img src="./assets/HARIPRASATH N.jpg" alt="Student photo" loading="lazy">
+                      <img src="./assets/images/HARIPRASATH N.jpg" alt="Student photo" loading="lazy">
                     </div>
                     <span class="member-name-box">HARIPRASATH N</span>
                     <a class="phone-btn" href="tel:+918220683194" aria-label="Call Hariprasath N"><svg
@@ -3468,7 +3558,7 @@
                 <div class="member-card-inner">
                   <div class="member-card-front">
                     <div class="member-portrait">
-                      <img src="./assets/SENNIAPPA SARVESH R.jpg" alt="Student photo" loading="lazy">
+                      <img src="./assets/images/SENNIAPPA SARVESH R.jpg" alt="Student photo" loading="lazy">
                     </div>
                       <span class="member-name-box">SEENIAPPA SARVESH R</span>
                     <a class="phone-btn" href="tel:+918807648494" aria-label="Call Sarvesh R"><svg viewBox="0 0 24 24"
@@ -3486,7 +3576,7 @@
                 <div class="member-card-inner">
                   <div class="member-card-front">
                     <div class="member-portrait">
-                      <img src="./assets/MATHANGI S.jpg" alt="Student photo" loading="lazy">
+                      <img src="./assets/images/MATHANGI S.jpg" alt="Student photo" loading="lazy">
                     </div>
                     <span class="member-name-box">MATHANGI S</span>
                     <a class="phone-btn" href="tel:+918220324140" aria-label="Call Mathangi S"><svg viewBox="0 0 24 24"
@@ -4081,7 +4171,7 @@
                 <div class="logo-marquee-track">
                   <div class="logo-marquee-group">
                     <div class="logo-marquee-item">
-                      <img src="./assets/maayai.png" alt="Maayai Logo" class="logo-marquee-img">
+                      <img src="./assets/icons/maayai.png" alt="Maayai Logo" class="logo-marquee-img">
                       <span class="logo-marquee-text logo-marquee-text--gold">MAAYAI 2026</span>
                     </div>
                     <div class="logo-marquee-item">
@@ -4096,7 +4186,7 @@
                   </div>
                   <div class="logo-marquee-group">
                     <div class="logo-marquee-item">
-                      <img src="./assets/maayai.png" alt="Maayai Logo" class="logo-marquee-img">
+                      <img src="./assets/icons/maayai.png" alt="Maayai Logo" class="logo-marquee-img">
                       <span class="logo-marquee-text logo-marquee-text--gold">MAAYAI 2026</span>
                     </div>
                     <div class="logo-marquee-item">
@@ -4119,7 +4209,7 @@
       <footer class="site-footer">
         <div class="footer-inner">
           <a href="https://forms.gle/LmRmyC1k6haVJNeu7" target="_blank" rel="noopener noreferrer">
-            <img src="./assets/maayai.png" alt="Maayai Logo" class="footer-crest">
+            <img src="./assets/icons/maayai.png" alt="Maayai Logo" class="footer-crest">
           </a>
           <p>&copy; Maayai 2026 &mdash; Department of Computer Science and Design, Erode Sengunthar Engineering College.
             All legends reserved.</p>
@@ -4579,6 +4669,83 @@
           e.preventDefault();
           formStatus.textContent = 'Your message has been sent. We will respond soon.';
           contactForm.reset();
+        });
+      }
+
+      /* ---------------------- 9. Poster carousel ---------------------- */
+      // Two stacked <img> layers dissolve into each other every 2s — the
+      // outgoing and incoming posters fade at the same time (see the
+      // matched transition on .poster-img), so there's no blink/flash
+      // gap the way a single-image fade-out-then-in would have.
+      const posterLink = document.getElementById('posterLink');
+      const posterFrame = document.querySelector('.poster-frame');
+      const posterImgA = document.getElementById('posterImgA');
+      const posterImgB = document.getElementById('posterImgB');
+
+      if (posterLink && posterFrame && posterImgA && posterImgB && posterLink.dataset.posters) {
+        const posterSrcs = posterLink.dataset.posters.split('|').filter(Boolean);
+        let posterIndex = 0;
+        let activeImg = posterImgA;
+        let hiddenImg = posterImgB;
+        let posterTimer = null;
+
+        // Preload the other variants so swapping src later is instant
+        // instead of waiting on a fresh download mid-fade.
+        posterSrcs.slice(1).forEach(src => { new Image().src = src; });
+
+        const applyAspect = (img) => {
+          if (img.naturalWidth && img.naturalHeight) {
+            posterFrame.style.aspectRatio = `${img.naturalWidth} / ${img.naturalHeight}`;
+          }
+        };
+
+        if (posterImgA.complete) {
+          applyAspect(posterImgA);
+        } else {
+          posterImgA.addEventListener('load', () => applyAspect(posterImgA), { once: true });
+        }
+
+        const swapPoster = () => {
+          posterIndex = (posterIndex + 1) % posterSrcs.length;
+          const nextSrc = posterSrcs[posterIndex];
+
+          const reveal = () => {
+            applyAspect(hiddenImg);
+            hiddenImg.classList.add('is-active');
+            activeImg.classList.remove('is-active');
+            posterLink.href = nextSrc;
+            const swap = activeImg;
+            activeImg = hiddenImg;
+            hiddenImg = swap;
+          };
+
+          hiddenImg.src = nextSrc;
+          if (hiddenImg.complete) {
+            requestAnimationFrame(reveal);
+          } else {
+            hiddenImg.addEventListener('load', reveal, { once: true });
+          }
+        };
+
+        const startPosterCarousel = () => {
+          if (posterTimer || posterSrcs.length < 2) return;
+          posterTimer = setInterval(swapPoster, 2000);
+        };
+
+        const stopPosterCarousel = () => {
+          clearInterval(posterTimer);
+          posterTimer = null;
+        };
+
+        startPosterCarousel();
+
+        // Pause while the tab is hidden, same as the credits ember canvas.
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            stopPosterCarousel();
+          } else {
+            startPosterCarousel();
+          }
         });
       }
 
