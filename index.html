@@ -612,7 +612,13 @@
 
     /* ============================== 6b. POSTER (click-to-download) ============================== */
     .poster-section {
+      /* Overrides the generic .section min-height:100vh + centering —
+     that rule is meant for tall hero-style sections. A 16:9 poster is
+     short and wide, so forcing full-viewport height here just centers
+     it inside a tall empty box (big dark gaps above/below). */
+      min-height: 0;
       padding-top: clamp(20px, 4vw, 40px);
+      padding-bottom: clamp(20px, 4vw, 40px);
     }
 
     .poster-link {
@@ -634,7 +640,7 @@
       overflow: hidden;
       /* Fallback ratio so the frame has height before JS reads the first
    image's real dimensions; corrected immediately once it loads. */
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 16 / 9;
     }
 
     .poster-img {
@@ -663,13 +669,13 @@
     .poster-hint {
       position: absolute;
       inset: auto 0 0 0;
-      padding: clamp(12px, 2.4vw, 20px);
+      padding: clamp(10px, 2.4vw, 20px);
       text-align: center;
       font-family: var(--font-body);
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      font-size: clamp(0.8rem, 1.6vw, 1rem);
+      font-size: clamp(0.72rem, 3.2vw, 1rem);
       color: var(--gold-light);
       background: linear-gradient(to top, rgba(10, 8, 6, 0.92), transparent);
       opacity: 0;
@@ -679,6 +685,39 @@
     .poster-link:hover .poster-hint,
     .poster-link:focus-visible .poster-hint {
       opacity: 1;
+    }
+
+    /* Touch devices have no hover state, so the download hint would never
+   be seen — show it permanently (slightly dimmed) instead of hidden. */
+    @media (hover: none) {
+      .poster-hint {
+        opacity: 1;
+        padding: 10px clamp(10px, 4vw, 20px);
+        background: linear-gradient(to top, rgba(10, 8, 6, 0.95), rgba(10, 8, 6, 0.55) 70%, transparent);
+      }
+    }
+
+    /* ---- Poster: small phone tightening ---- */
+    @media (max-width: 480px) {
+      /* Mobile poster: use the poster's real 1200:844 ratio so it does not
+         create/crop an unnecessary 16:9 area on narrow screens. */
+      .poster-section {
+        padding-top: 6px;
+        padding-bottom: 10px;
+      }
+
+      .poster-link {
+        width: 100%;
+        border-radius: 8px;
+      }
+
+      .poster-frame {
+        aspect-ratio: 1200 / 844;
+      }
+
+      .poster-img {
+        object-fit: contain;
+      }
     }
 
     /* ============================== 7. FRAME (ornate content panel) ============================== */
