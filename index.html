@@ -699,6 +699,7 @@
 
     /* ---- Poster: small phone tightening ---- */
     @media (max-width: 480px) {
+
       /* Mobile poster: use the poster's real 1200:844 ratio so it does not
          create/crop an unnecessary 16:9 area on narrow screens. */
       .poster-section {
@@ -1119,6 +1120,39 @@
       font-size: clamp(0.85rem, 1.7vw, 1rem);
       color: var(--text-secondary);
       line-height: 1.4;
+    }
+
+    /* ============================== 10b. BUS ROUTE SECTION ==============================
+       The 46-bus dataset, its cards, table and search UI (and their CSS) now
+       live entirely in bus-route.html, loaded here via <iframe>. Only the
+       iframe wrapper itself is styled from index.html. */
+    .section--bus {
+      /* The generic .section rule forces min-height:100vh (meant for the
+         full hero-style sections). This section now only wraps an iframe
+         whose real height varies with its content, so that fixed viewport
+         height would leave a large empty block below it — remove it and
+         let the section size to its content instead. */
+      min-height: 0;
+      justify-content: flex-start;
+    }
+
+    .section--bus .section-inner {
+      display: flex;
+      justify-content: center;
+    }
+
+    .bus-route-iframe {
+      display: block;
+      width: 100%;
+      max-width: var(--section-max-width);
+      /* Sensible default before the child page's first postMessage arrives,
+         so there's no zero-height flash of empty space while it loads. */
+      height: 600px;
+      min-height: 320px;
+      border: 0;
+      background: transparent;
+      border-radius: var(--frame-radius);
+      transition: height 0.25s ease;
     }
 
     /* ============================== 11. RULES SECTION ============================== */
@@ -2996,12 +3030,12 @@
           <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
           <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
           <li><a href="/schedule" class="nav-link" data-route="schedule">Timeline</a></li>
+          <li><a href="/bus" class="nav-link" data-route="bus">Bus Route</a></li>
           <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
           <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         </ul>
       </nav>
-      <a href="https://forms.gle/LmRmyC1k6haVJNeu7"
-        class="btn btn--primary nav-cta">Register Now</a>
+      <a href="https://forms.gle/LmRmyC1k6haVJNeu7" class="btn btn--primary nav-cta">Register Now</a>
 
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false"
         aria-controls="mobileNav">
@@ -3017,11 +3051,10 @@
         <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
         <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
         <li><a href="/schedule" class="nav-link" data-route="schedule">Timeline</a></li>
+        <li><a href="/bus" class="nav-link" data-route="bus">Bus Route</a></li>
         <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
         <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
-        <li><a
-            href="https://forms.gle/LmRmyC1k6haVJNeu7"
-            class="mobile-nav-cta" data-nav-mobile>Register Now</a></li>
+        <li><a href="https://forms.gle/LmRmyC1k6haVJNeu7" class="mobile-nav-cta" data-nav-mobile>Register Now</a></li>
       </ul>
     </nav>
   </header>
@@ -3096,8 +3129,8 @@
         </p>
 
         <div class="cta-row">
-          <a href="https://forms.gle/LmRmyC1k6haVJNeu7"
-            class="btn btn--primary">Register Now <span class="btn-arrow">&rarr;</span></a>
+          <a href="https://forms.gle/LmRmyC1k6haVJNeu7" class="btn btn--primary">Register Now <span
+              class="btn-arrow">&rarr;</span></a>
           <a href="https://www.instagram.com/mayaai_2026/" class="btn btn--secondary" target="_blank"
             rel="noopener noreferrer">View Instagram <span class="btn-arrow">&rarr;</span></a>
         </div>
@@ -3188,7 +3221,7 @@
         </div>
       </div>
     </section>
-    
+
     <!-- ================= PRIZES SECTION ================= -->
     <section class="section" id="prizes">
       <div class="section-inner">
@@ -3245,7 +3278,7 @@
         </div>
       </div>
     </section>
-    
+
     <!-- ================= RULES SECTION ================= -->
     <section class="section" id="rules">
       <div class="section-inner">
@@ -3255,7 +3288,7 @@
           </div>
           <h2 class="banner-title">Official Challenge Rules</h2>
         </div>
-        
+
         <div class="frame frame--rules">
           <span class="corner corner--tl" aria-hidden="true"></span>
           <span class="corner corner--tr" aria-hidden="true"></span>
@@ -3272,217 +3305,235 @@
                 completed within the 24-hour hackathon period.</span>
             </li>
             <li><span class="rule-num">04.</span><span class="rule-text">All participants must arrive between 8:00 AM
-              and 10:30 AM on 17 September 2026. No participant will be permitted to enter after 10:30 AM.</span></li>
-              <li><span class="rule-num">05.</span><span class="rule-text">The project will be evaluated through three
+                and 10:30 AM on 17 September 2026. No participant will be permitted to enter after 10:30 AM.</span></li>
+            <li><span class="rule-num">05.</span><span class="rule-text">The project will be evaluated through three
                 review stages:
                 First Review: 50% project completion
                 Second Review: 75% project completion
                 Third Review: 100% project completion</span></li>
-                <li><span class="rule-num">06.</span><span class="rule-text">Decision of the judges will be final and
+            <li><span class="rule-num">06.</span><span class="rule-text">Decision of the judges will be final and
                 binding.</span></li>
 
           </ol>
           <div class="frame-divider" aria-hidden="true">
             &#10022;&#8213;&#8213;&#8213;&#10022;&#8213;&#8213;&#8213;&#10022;</div>
-          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ================= SCHEDULE SECTION ================= -->
-      <section class="section" id="schedule">
-        <div class="section-inner">
-          <div class="banner">
-            <div class="banner-shape">
-              <div class="banner-shape-inner"></div>
-            </div>
-            <h2 class="banner-title">Official Challenge Timeline</h2>
+    <!-- ================= SCHEDULE SECTION ================= -->
+    <section class="section" id="schedule">
+      <div class="section-inner">
+        <div class="banner">
+          <div class="banner-shape">
+            <div class="banner-shape-inner"></div>
           </div>
-  
-          <div class="frame frame--schedule">
-            <span class="corner corner--tl" aria-hidden="true"></span>
-            <span class="corner corner--tr" aria-hidden="true"></span>
-            <span class="corner corner--bl" aria-hidden="true"></span>
-            <span class="corner corner--br" aria-hidden="true"></span>
-            <span class="frame-pendant" aria-hidden="true">&#10022;</span>
-  
-            <ol class="timeline">
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 21H20M6 21V9L12 4L18 9V21M10 21V14H14V21" fill="none" stroke="currentColor"
-                      stroke-width="1.4" stroke-linejoin="round" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">9:45 AM &ndash; 10:30 AM</p>
-                  <p class="timeline-desc">Inauguration</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 3L4 7V12C4 16.5 7.5 20 12 21C16.5 20 20 16.5 20 12V7L12 3Z" fill="none"
-                      stroke="currentColor" stroke-width="1.4" />
-                    <circle cx="12" cy="11" r="2.4" fill="none" stroke="currentColor" stroke-width="1.3" />
-                    <path d="M12 13.4V16" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">11:00 AM</p>
-                  <p class="timeline-desc">Problem Statement Release &amp; Hackathon Begins</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
-                      stroke-linejoin="round" />
-                    <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">11:30 AM</p>
-                  <p class="timeline-desc">Refreshment</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
-                      stroke-linejoin="round" />
-                    <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">02:15 PM</p>
-                  <p class="timeline-desc">Lunch Break</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M2 12C2 12 6 6 12 6C18 6 22 12 22 12C22 12 18 18 12 18C6 18 2 12 2 12Z" fill="none"
-                      stroke="currentColor" stroke-width="1.4" />
-                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">3:30 PM</p>
-                  <p class="timeline-desc">First Review</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
-                      stroke-linejoin="round" />
-                    <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">5:30 PM</p>
-                  <p class="timeline-desc">Refreshment</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
-                      stroke-linejoin="round" />
-                    <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">8:30 PM </p>
-                  <p class="timeline-desc">Dinner Break</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M2 12C2 12 6 6 12 6C18 6 22 12 22 12C22 12 18 18 12 18C6 18 2 12 2 12Z" fill="none"
-                      stroke="currentColor" stroke-width="1.4" />
-                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">1:00 AM</p>
-                  <p class="timeline-desc">Second Review</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
-                      stroke-linejoin="round" />
-                    <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">7:30 AM </p>
-                  <p class="timeline-desc">Refreshment</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
-                      stroke-linejoin="round" />
-                    <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time"> 9:00 AM</p>
-                  <p class="timeline-desc"> Breakfast</p>
-                </div>
-              </li>
-  
-  
-              <li class="timeline-row">
-                <span class="timeline-node">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M2 12C2 12 6 6 12 6C18 6 22 12 22 12C22 12 18 18 12 18C6 18 2 12 2 12Z" fill="none"
-                      stroke="currentColor" stroke-width="1.4" />
-                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.3" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">9:30 AM</p>
-                  <p class="timeline-desc">Final Review</p>
-                </div>
-              </li>
-  
-              <li class="timeline-row">
-                <span class="timeline-node timeline-node--trophy">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 4H17V9C17 12 14.8 14 12 14C9.2 14 7 12 7 9V4Z" fill="none" stroke="currentColor"
-                      stroke-width="1.4" />
-                    <path d="M7 5H4V7C4 9 5.5 10.5 7 10.5M17 5H20V7C20 9 18.5 10.5 17 10.5" stroke="currentColor"
-                      stroke-width="1.2" fill="none" />
-                    <path d="M12 14V17M9 20H15M10 17H14V20H10Z" stroke="currentColor" stroke-width="1.2" fill="none" />
-                  </svg>
-                </span>
-                <div class="timeline-text">
-                  <p class="timeline-time">11:00 AM</p>
-                  <p class="timeline-desc">Results, Prize &amp; Certificate Distribution</p>
-                </div>
-              </li>
-            </ol>
-  
-            <p class="timeline-food-note">Non&ndash;veg food is also provided</p>
-          </div>
+          <h2 class="banner-title">Official Challenge Timeline</h2>
         </div>
-      </section>
-      
+
+        <div class="frame frame--schedule">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <span class="frame-pendant" aria-hidden="true">&#10022;</span>
+
+          <ol class="timeline">
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 21H20M6 21V9L12 4L18 9V21M10 21V14H14V21" fill="none" stroke="currentColor"
+                    stroke-width="1.4" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">9:45 AM &ndash; 10:30 AM</p>
+                <p class="timeline-desc">Inauguration</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3L4 7V12C4 16.5 7.5 20 12 21C16.5 20 20 16.5 20 12V7L12 3Z" fill="none"
+                    stroke="currentColor" stroke-width="1.4" />
+                  <circle cx="12" cy="11" r="2.4" fill="none" stroke="currentColor" stroke-width="1.3" />
+                  <path d="M12 13.4V16" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">11:00 AM</p>
+                <p class="timeline-desc">Problem Statement Release &amp; Hackathon Begins</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" />
+                  <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">11:30 AM</p>
+                <p class="timeline-desc">Refreshment</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" />
+                  <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">02:15 PM</p>
+                <p class="timeline-desc">Lunch Break</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 12C2 12 6 6 12 6C18 6 22 12 22 12C22 12 18 18 12 18C6 18 2 12 2 12Z" fill="none"
+                    stroke="currentColor" stroke-width="1.4" />
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">3:30 PM</p>
+                <p class="timeline-desc">First Review</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" />
+                  <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">5:30 PM</p>
+                <p class="timeline-desc">Refreshment</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" />
+                  <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">8:30 PM </p>
+                <p class="timeline-desc">Dinner Break</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 12C2 12 6 6 12 6C18 6 22 12 22 12C22 12 18 18 12 18C6 18 2 12 2 12Z" fill="none"
+                    stroke="currentColor" stroke-width="1.4" />
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">1:00 AM</p>
+                <p class="timeline-desc">Second Review</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" />
+                  <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">7:30 AM </p>
+                <p class="timeline-desc">Refreshment</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9H20L18.5 20H5.5L4 9Z" fill="none" stroke="currentColor" stroke-width="1.4"
+                    stroke-linejoin="round" />
+                  <path d="M8 9C8 6 9.5 4 12 4C14.5 4 16 6 16 9" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time"> 9:00 AM</p>
+                <p class="timeline-desc"> Breakfast</p>
+              </div>
+            </li>
+
+
+            <li class="timeline-row">
+              <span class="timeline-node">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2 12C2 12 6 6 12 6C18 6 22 12 22 12C22 12 18 18 12 18C6 18 2 12 2 12Z" fill="none"
+                    stroke="currentColor" stroke-width="1.4" />
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">9:30 AM</p>
+                <p class="timeline-desc">Final Review</p>
+              </div>
+            </li>
+
+            <li class="timeline-row">
+              <span class="timeline-node timeline-node--trophy">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 4H17V9C17 12 14.8 14 12 14C9.2 14 7 12 7 9V4Z" fill="none" stroke="currentColor"
+                    stroke-width="1.4" />
+                  <path d="M7 5H4V7C4 9 5.5 10.5 7 10.5M17 5H20V7C20 9 18.5 10.5 17 10.5" stroke="currentColor"
+                    stroke-width="1.2" fill="none" />
+                  <path d="M12 14V17M9 20H15M10 17H14V20H10Z" stroke="currentColor" stroke-width="1.2" fill="none" />
+                </svg>
+              </span>
+              <div class="timeline-text">
+                <p class="timeline-time">11:00 AM</p>
+                <p class="timeline-desc">Results, Prize &amp; Certificate Distribution</p>
+              </div>
+            </li>
+          </ol>
+
+          <p class="timeline-food-note">Non&ndash;veg food is also provided</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BUS ROUTE SECTION ================= -->
+    <!-- The entire Bus Route section — banner, frame, all 46 bus routes and
+         its search/filter UI — now lives in bus-route.html (kept fully out
+         of index.html on purpose; no bus data is duplicated here). This
+         section keeps the same slot/id in the page for navigation and
+         scroll-spy, and loads bus-route.html inside a same-origin <iframe>.
+         The child page posts its rendered height back via postMessage so
+         the iframe auto-fits the content with no inner scrollbar, on both
+         desktop and mobile (see "Bus route iframe auto-fit" script below). -->
+    <section class="section section--bus" id="bus">
+      <div class="section-inner">
+        <iframe id="busRouteFrame" class="bus-route-iframe" src="bus-route.html"
+          title="College Bus Route List &mdash; search and stop timings for all campus buses" loading="eager"
+          referrerpolicy="same-origin"></iframe>
+      </div>
+    </section>
+
+
 
     <!-- ================= MENTORS / TEAM SECTION ================= -->
     <section class="section" id="mentors">
@@ -3599,7 +3650,7 @@
                     <div class="member-portrait">
                       <img src="./assets/images/SENNIAPPA SARVESH R.jpg" alt="Student photo" loading="lazy">
                     </div>
-                      <span class="member-name-box">SEENIAPPA SARVESH R</span>
+                    <span class="member-name-box">SEENIAPPA SARVESH R</span>
                     <a class="phone-btn" href="tel:+918807648494" aria-label="Call Sarvesh R"><svg viewBox="0 0 24 24"
                         aria-hidden="true">
                         <path
@@ -4518,6 +4569,7 @@
         '/home': 'home',
         '/about': 'about',
         '/schedule': 'schedule',
+        '/bus': 'bus',
         '/rules': 'rules',
         '/prizes': 'prizes',
         '/mentors': 'mentors',
@@ -4588,6 +4640,23 @@
           false
         );
       });
+
+      /* ---------------------- Bus route iframe auto-fit ----------------------
+         The 46-bus dataset + its search/filter UI live in bus-route.html,
+         loaded here via <iframe>. That page posts its rendered height back
+         via postMessage (on load, on resize, and every time a bus card is
+         expanded/collapsed) so the iframe can be resized to fit its content
+         exactly, with no inner scrollbar, on both desktop and mobile. */
+      const busRouteFrame = document.getElementById('busRouteFrame');
+
+      if (busRouteFrame) {
+        window.addEventListener('message', (event) => {
+          const data = event.data;
+          if (data && data.type === 'bus-route-height' && typeof data.height === 'number') {
+            busRouteFrame.style.height = `${data.height}px`;
+          }
+        });
+      }
 
       /* ---------------------- 5. Countdown timer ---------------------- */
       const countdownEl = document.getElementById('countdownTimer');
