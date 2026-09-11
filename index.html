@@ -1122,39 +1122,6 @@
       line-height: 1.4;
     }
 
-    /* ============================== 10b. BUS ROUTE SECTION ==============================
-       The 46-bus dataset, its cards, table and search UI (and their CSS) now
-       live entirely in bus-route.html, loaded here via <iframe>. Only the
-       iframe wrapper itself is styled from index.html. */
-    .section--bus {
-      /* The generic .section rule forces min-height:100vh (meant for the
-         full hero-style sections). This section now only wraps an iframe
-         whose real height varies with its content, so that fixed viewport
-         height would leave a large empty block below it — remove it and
-         let the section size to its content instead. */
-      min-height: 0;
-      justify-content: flex-start;
-    }
-
-    .section--bus .section-inner {
-      display: flex;
-      justify-content: center;
-    }
-
-    .bus-route-iframe {
-      display: block;
-      width: 100%;
-      max-width: var(--section-max-width);
-      /* Sensible default before the child page's first postMessage arrives,
-         so there's no zero-height flash of empty space while it loads. */
-      height: 600px;
-      min-height: 320px;
-      border: 0;
-      background: transparent;
-      border-radius: var(--frame-radius);
-      transition: height 0.25s ease;
-    }
-
     /* ============================== 11. RULES SECTION ============================== */
     .rules-list {
       display: flex;
@@ -1566,6 +1533,98 @@
     .member-portrait svg {
       width: 70%;
       height: 70%;
+    }
+
+    /* ======================= GUEST SECTION (photo left / details right) ======================= */
+    .guest-list {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(20px, 3.5vw, 32px);
+    }
+
+    .guest-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 3vw, 32px);
+      padding: clamp(14px, 2.4vw, 20px);
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(201, 161, 95, 0.25);
+      border-radius: var(--frame-radius);
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .guest-row:hover {
+      border-color: rgba(201, 161, 95, 0.55);
+      transform: translateY(-2px);
+      box-shadow: var(--glow-gold-soft);
+    }
+
+    .guest-photo {
+      flex: 0 0 auto;
+      width: clamp(84px, 14vw, 128px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--gold);
+      box-shadow: var(--glow-gold);
+      background: radial-gradient(circle at 50% 35%, #2a2116, #0c0a07 80%);
+    }
+
+    .guest-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .guest-details {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .guest-name {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: clamp(1rem, 2.4vw, 1.2rem);
+      color: var(--gold-light);
+      letter-spacing: 0.02em;
+      margin: 0 0 4px;
+    }
+
+    .guest-role {
+      font-family: var(--font-body);
+      font-size: clamp(0.85rem, 2vw, 0.98rem);
+      color: var(--text-primary);
+      line-height: 1.45;
+      margin: 0 0 4px;
+    }
+
+    .guest-org {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: clamp(0.82rem, 1.9vw, 0.94rem);
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin: 0 0 2px;
+    }
+
+    .guest-location {
+      font-family: var(--font-body);
+      font-size: clamp(0.78rem, 1.8vw, 0.88rem);
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    @media (max-width: 560px) {
+      .guest-row {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .guest-photo {
+        width: clamp(96px, 30vw, 130px);
+      }
     }
 
     /* --- Student Coordinator flip cards (name + phone, no photo) --- */
@@ -3030,7 +3089,6 @@
           <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
           <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
           <li><a href="/schedule" class="nav-link" data-route="schedule">Timeline</a></li>
-          <li><a href="/bus" class="nav-link" data-route="bus">Bus Route</a></li>
           <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
           <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         </ul>
@@ -3051,7 +3109,6 @@
         <li><a href="/prizes" class="nav-link" data-route="prizes">Prizes</a></li>
         <li><a href="/rules" class="nav-link" data-route="rules">Rules</a></li>
         <li><a href="/schedule" class="nav-link" data-route="schedule">Timeline</a></li>
-        <li><a href="/bus" class="nav-link" data-route="bus">Bus Route</a></li>
         <li><a href="/mentors" class="nav-link" data-route="mentors">Mentors</a></li>
         <li><a href="/visit" class="nav-link" data-route="visit">Visit</a></li>
         <li><a href="https://forms.gle/LmRmyC1k6haVJNeu7" class="mobile-nav-cta" data-nav-mobile>Register Now</a></li>
@@ -3516,26 +3573,73 @@
       </div>
     </section>
 
-    <!-- ================= BUS ROUTE SECTION ================= -->
-    <!-- The entire Bus Route section — banner, frame, all 46 bus routes and
-         its search/filter UI — now lives in bus-route.html (kept fully out
-         of index.html on purpose; no bus data is duplicated here). This
-         section keeps the same slot/id in the page for navigation and
-         scroll-spy, and loads bus-route.html inside a same-origin <iframe>.
-         The child page posts its rendered height back via postMessage so
-         the iframe auto-fits the content with no inner scrollbar, on both
-         desktop and mobile (see "Bus route iframe auto-fit" script below). -->
-    <section class="section section--bus" id="bus">
+    <!-- ================= MENTORS / TEAM SECTION ================= -->
+    <section class="section" id="guests">
       <div class="section-inner">
-        <iframe id="busRouteFrame" class="bus-route-iframe" src="bus-route.html"
-          title="College Bus Route List &mdash; search and stop timings for all campus buses" loading="eager"
-          referrerpolicy="same-origin"></iframe>
+        <div class="banner">
+          <div class="banner-shape">
+            <div class="banner-shape-inner"></div>
+          </div>
+          <h2 class="banner-title">Guests of Honour</h2>
+        </div>
+
+        <div class="frame frame--guests">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <span class="frame-pendant" aria-hidden="true">&#10022;</span>
+
+          <div class="guest-list">
+            <div class="guest-row">
+              <div class="guest-photo">
+                <img src="./assets/images/Ashokkumar Manisekaran.jpeg" alt="Ashokkumar Manisekaran photo" loading="lazy">
+              </div>
+              <div class="guest-details">
+                <p class="guest-name">Ashokkumar Manisekaran</p>
+                <p class="guest-role">Founder / Developer / Educator</p>
+                <p class="guest-org">Praya Labs and Funobotz Paper Robotics Pvt Ltd</p>
+                <p class="guest-location">Tiruvannamalai</p>
+              </div>
+            </div>
+
+            <div class="guest-row">
+              <div class="guest-photo">
+                <img src="./assets/images/Dr.Bakkialakshmi V S.png" alt="Dr. Bakkialakshmi V S photo" loading="lazy">
+              </div>
+              <div class="guest-details">
+                <p class="guest-name">Dr. Bakkialakshmi V S</p>
+                <p class="guest-role">Educator | Business Operations | Design Thinking &amp; Innovation Strategist</p>
+                <p class="guest-org">SRM Institute of Science and Technology, Kattankulathur</p>
+              </div>
+            </div>
+
+            <div class="guest-row">
+              <div class="guest-photo">
+                <img src="./assets/images/Dr.Saranya.jpeg" alt="Dr. Saranya photo" loading="lazy">
+              </div>
+              <div class="guest-details">
+                <p class="guest-name">Dr. Saranya</p>
+                <p class="guest-role">Startup Mentoring | Innovation Ecosystems | Industry Collaboration | Prototype to Startup | Deep-Tech Product Development | Enthusiastic Researcher in Antenna Design | Institute Innovation Coordinator</p>
+                <p class="guest-org">Sri Eshwar College of Engineering, Coimbatore</p>
+              </div>
+            </div>
+
+            <div class="guest-row">
+              <div class="guest-photo">
+                <img src="./assets/images/Durkesh Kumar S.png" alt="Durkesh Kumar S photo" loading="lazy">
+              </div>
+              <div class="guest-details">
+                <p class="guest-name">Durkesh Kumar S</p>
+                <p class="guest-role">Game Developer</p>
+                <p class="guest-org">Thryv Rehab Private Solution Limited</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-
-
-    <!-- ================= MENTORS / TEAM SECTION ================= -->
     <section class="section" id="mentors">
       <div class="section-inner">
         <div class="banner">
@@ -4569,7 +4673,6 @@
         '/home': 'home',
         '/about': 'about',
         '/schedule': 'schedule',
-        '/bus': 'bus',
         '/rules': 'rules',
         '/prizes': 'prizes',
         '/mentors': 'mentors',
@@ -4640,23 +4743,6 @@
           false
         );
       });
-
-      /* ---------------------- Bus route iframe auto-fit ----------------------
-         The 46-bus dataset + its search/filter UI live in bus-route.html,
-         loaded here via <iframe>. That page posts its rendered height back
-         via postMessage (on load, on resize, and every time a bus card is
-         expanded/collapsed) so the iframe can be resized to fit its content
-         exactly, with no inner scrollbar, on both desktop and mobile. */
-      const busRouteFrame = document.getElementById('busRouteFrame');
-
-      if (busRouteFrame) {
-        window.addEventListener('message', (event) => {
-          const data = event.data;
-          if (data && data.type === 'bus-route-height' && typeof data.height === 'number') {
-            busRouteFrame.style.height = `${data.height}px`;
-          }
-        });
-      }
 
       /* ---------------------- 5. Countdown timer ---------------------- */
       const countdownEl = document.getElementById('countdownTimer');
